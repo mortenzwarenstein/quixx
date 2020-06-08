@@ -23,53 +23,45 @@
     import Undo from "../components/Scorecard/Undo";
 
     /**
-     * Contains the scoresheet for a Quixx game
-     * @author Morten Zwarenstein
+     * @group Views
+     * Contains the scoresheet for a Qwixx game. Also the main container for the game: This is where a player can
+     * see and control the current state of his/her game.
      */
     export default {
+        name: "Scorecard",
         components: {
-            /**
-             * Row component: A row in the quixx game
-             * @description Contains 11 Cells and one LockCell
-             */
+            //@vuese
             'appRow': Row,
-            /**
-             * Penalty component: Keeps track of the amount of failed throws made
-             */
             'appPenalty': Penalty,
-            /**
-             * Popup that indicates your score after the game is over
-             * @description The popup shows after either two rows closed OR all penalty-throws are made
-             */
             'appFinishPopup': FinishPopup,
-            /**
-             * The undo button
-             * @description This button will give you 1 undo-opportunity, because missclicks can happen
-             */
             'appUndoButton': Undo
         },
         mounted() {
+            // @vuese
             // This line checks if the game is properly setup, if not: redirect back to the main menu.
             if(!this.rows.length) this.$router.push('/')
         },
         computed: {
             /**
-             * This property gets the setup rows from the store
-             * @returns Cell[]
+             * @vuese
+             * Gets rowdata from the store
+             * @type Array
              */
             rows(){
                 return this.$store.getters.rows;
             },
             /**
+             * @vuese
              * This property gets the state of the game: Finished or not finished
-             * @returns Boolean
+             * @type Boolean
              */
             finished(){
                 return this.$store.getters.getFinished;
             },
             /**
+             * @vuese
              * This property gets the total scores of all rows added up
-             * @returns Number
+             * @type Number
              */
             score(){
                 return this.$store.getters.totalScore;
@@ -77,7 +69,9 @@
         },
         methods: {
             /**
+             * @vuese
              * This method adds a failed throw to the store.
+             * @type void
              */
             failedThrow(){
                 this.$store.commit('throwFailed')

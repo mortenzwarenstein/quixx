@@ -16,13 +16,17 @@
 <script>
 
     /**
-     * Menucomponent, the play button sets up the game in the store
-     */
+     * @group Views
+     * Consists of a column-flexbox of buttons. Currently only has a play button.
+     * */
     export default {
+        name: 'HomeMenu',
         methods: {
             /**
+             * @vuese
              * Gets called when the user clicks on the play button
              * Sets up the game in the store and then navigates to the next page.
+             * @type void
              */
             setup(){
                 this.$store.commit('setupRows');

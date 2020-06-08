@@ -6,13 +6,50 @@
 </template>
 
 <script>
+
+    /**
+     * Cell containing a single number representing a field on the Qwixx scoresheet. A cell is part of a row.
+     */
     export default {
-        props: [
-            "cell",
-            "crossable",
-            "rowIndex"
-        ],
+        name: "Cell",
+        props: {
+            /**
+             * @vuese
+             * The cell from the store. Looped over by the parent-row, the cell gains its properties through the
+             * "cell"-prop.
+             */
+            cell: {
+                type: Object,
+                required: true
+            },
+            /**
+             * @vuese
+             * A boolean representing the crossability of the cell.
+             * Determined by three factors: Is the cell within range (higher than the lowest, lowest than the highest),
+             * is the row not already closed by a player, and is the game not yet finished.
+             */
+            crossable: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * @vuese
+             * @name rowIndex
+             * @description This property represents the row of the cell, only used for changing the cell in the right row in the
+             * store.
+             */
+            rowIndex: {
+                type: Number,
+                required: true
+            }
+        },
         computed: {
+            /**
+             * @vuese
+             * Returns a cellstyle depending on whether the cell is crossable or not. Returns a styleobject containing
+             * the lightened backgroundcolor
+             * @type {{backgroundColor:([string\|null])}}
+             */
             cellStyle() {
                 return {
                     backgroundColor: !this.cell.crossed && this.crossable ? `#${this.lighten(this.cell.color, 20)}` : null
@@ -20,6 +57,11 @@
             }
         },
         methods: {
+            /**
+             * @vuese
+             * Crosses a cell by changing it in the store and adding a move (for the undo functionality)
+             * @type void
+             */
             cross(){
                 if(this.crossable) {
                     this.$store.commit('crossCell', {rowIndex: this.rowIndex, cellNumber: this.cell.number})
