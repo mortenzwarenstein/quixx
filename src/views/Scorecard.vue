@@ -21,30 +21,64 @@
     import Penalty from '@/components/Scorecard/Penalty'
     import FinishPopup from "../components/Scorecard/FinishPopup";
     import Undo from "../components/Scorecard/Undo";
-    // @TODO: CREATE MULTIPLAYER
 
+    /**
+     * Contains the scoresheet for a Quixx game
+     * @author Morten Zwarenstein
+     */
     export default {
         components: {
+            /**
+             * Row component: A row in the quixx game
+             * @description Contains 11 Cells and one LockCell
+             */
             'appRow': Row,
+            /**
+             * Penalty component: Keeps track of the amount of failed throws made
+             */
             'appPenalty': Penalty,
+            /**
+             * Popup that indicates your score after the game is over
+             * @description The popup shows after either two rows closed OR all penalty-throws are made
+             */
             'appFinishPopup': FinishPopup,
+            /**
+             * The undo button
+             * @description This button will give you 1 undo-opportunity, because missclicks can happen
+             */
             'appUndoButton': Undo
         },
         mounted() {
+            // This line checks if the game is properly setup, if not: redirect back to the main menu.
             if(!this.rows.length) this.$router.push('/')
         },
         computed: {
+            /**
+             * This property gets the setup rows from the store
+             * @returns Cell[]
+             */
             rows(){
                 return this.$store.getters.rows;
             },
+            /**
+             * This property gets the state of the game: Finished or not finished
+             * @returns Boolean
+             */
             finished(){
                 return this.$store.getters.getFinished;
             },
+            /**
+             * This property gets the total scores of all rows added up
+             * @returns Number
+             */
             score(){
                 return this.$store.getters.totalScore;
             }
         },
         methods: {
+            /**
+             * This method adds a failed throw to the store.
+             */
             failedThrow(){
                 this.$store.commit('throwFailed')
             }

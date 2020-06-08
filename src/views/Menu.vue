@@ -14,24 +14,21 @@
     </div>
 </template>
 <script>
-    import {logoutUser} from "../api/api";
 
+    /**
+     * Menucomponent, the play button sets up the game in the store
+     */
     export default {
         methods: {
+            /**
+             * Gets called when the user clicks on the play button
+             * Sets up the game in the store and then navigates to the next page.
+             */
             setup(){
                 this.$store.commit('setupRows');
-                this.$router.push('scorecard')
-            },
-            logout(){
-                this.$store.dispatch('logout');
-                logoutUser();
+                this.$router.push('scorecard');
             }
         },
-        computed: {
-            user(){
-                return this.$store.getters.user;
-            }
-        }
     }
 </script>
 <style scoped lang="scss">
